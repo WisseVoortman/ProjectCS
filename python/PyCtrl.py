@@ -3,13 +3,12 @@ import serial.tools.list_ports
 import _thread
 
 
+# Main controller for back-end
 class PyCtrl:
     _available_ports = {}
     _available_arduinos = {}
 
     def __init__(self):
-        # Init
-
         # Make sure our list is always up-to-date
         _thread.start_new_thread(self._update_ports, self)
 
@@ -26,11 +25,11 @@ class PyCtrl:
             # Check all ports
             for p in ports:
                 if "Arduino" in p[1]:
-                    # Do we already have this arduino?
+                    # Add port to our list if it isn't there yet
                     if not self._available_ports[p[0]]:
                         self._available_ports[p[0]] = True
 
-            # Remove non-existent arduino
+            # Remove non-existent ports
             for k in self._available_ports.keys():
                 r = 1
                 for p in ports:
@@ -46,7 +45,7 @@ class PyCtrl:
 
             time.sleep(1)  # Wait at least 1 second before re-checking
 
-
+# Class for actually controlling any in/out-going connections
 class Arduino:
     port = 0
 
