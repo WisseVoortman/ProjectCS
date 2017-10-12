@@ -15,7 +15,7 @@ class Arduino:
     def stop(self):
         self._stop = True
         if DEBUG:
-            print('Sending [0] signal to Arduino on port: {1}'
+            print('Sending {0} signal to Arduino on port: {1}'
                   .format(color('STOP', COLORS.RED),
                           color(self._port, COLORS.CYAN)))
 
