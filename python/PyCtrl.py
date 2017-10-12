@@ -13,7 +13,7 @@ class PyCtrl:
         # Make sure our list is always up-to-date
         _thread.start_new_thread(self._update_ports, self)
 
-    # Listen to our available ports, and update them!
+    # Listen to our available ports, and update them
     def _update_ports(self):
         while True:
             # Get all ports
@@ -36,7 +36,10 @@ class PyCtrl:
                     del self._available_ports[k]
 
             # Update our actual list
-            
+            for a in self._available_arduinos:
+                if not a.get_port() in self._available_ports:
+                    del a
+
             time.sleep(1)  # Wait at least 1 second before re-checking
 
 
