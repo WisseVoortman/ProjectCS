@@ -1,9 +1,9 @@
 class STATE:
-    STOPPED = bin(0)
+    STOPPED = 0x00
 
 
 class COMMANDS:
-    ACK = bin(0)
+    ACK = 0x00
 
 
 class COLORS:
