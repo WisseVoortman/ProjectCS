@@ -33,8 +33,11 @@ class View:
         mainframe.columnconfigure(0, weight=1)
         mainframe.rowconfigure(0, weight=1)
 
+        label = Label(mainframe, text="hieronder de control units:")
+        label.pack()
+
         # arduino detection
-        checkPortsonce()
+        checkPortsOnce()
 
         root.mainloop()
 
@@ -52,6 +55,9 @@ def checkPortsOnce():
         if "Arduino" in p[1]:
             print("This is an Arduino!")
             print("p0", p[0])
+
+def addArduinoGUI():
+    pass
 
 
 def checkPortsLoop():
