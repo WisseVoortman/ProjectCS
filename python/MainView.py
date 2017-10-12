@@ -35,11 +35,14 @@ class View:
         self.mainframe.columnconfigure(0, weight=1)
         self.mainframe.rowconfigure(0, weight=1)
 
-        label = Label(self.mainframe, text="hieronder de control units:")
-        label.pack()
+        label = Label(self.mainframe, text="Hieronder de control units:")
+        label.grid(column=0, row=0)
 
         label2 = Label(self.mainframe, text="hier een 2e label")
-        label2.pack()
+        label2.grid(column=0, row=1)
+
+        label3 = Label(self.mainframe, text="hier een 3e label")
+        label3.grid(column=0, row=2)
 
         # arduino detection
         View.checkPortsOnce()
@@ -47,8 +50,15 @@ class View:
         for p in View.ports:
             if "Arduino" in p[1]:
                 print("Arduino Gevonden op Poort: ", p[0])
-                exec("View." + p[0] + " = arduinoGUI.GUI()") # going to assign a class here that is going to render the gui items that belong to a specific arduino
-                print("printing variable com3: ", View.COM3)
+
+                #exec("View." + p[0] + " = 'something else'") laat mij hier staan svp
+                #print("printing variable com3: ", View.COM3)
+
+                # starting Arduino GUI construction here
+                frame = ttk.Frame(self.mainframe, padding = "3 3 12 12")  # left top right bottem    create mainframe in Root winow
+                label = Label(frame, text="zie hier het arduinoGUI label")
+                label.pack()
+                frame.grid(column=0, row=3)
 
             else:
                 pass
