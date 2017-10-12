@@ -30,7 +30,8 @@ class PyCtrl:
             if self._stop:
                 _thread.exit_thread()
             if DEBUG:
-                print('Running port-scan.')
+                print('Running port-scan...')
+
             # Get all ports
             ports = list(serial.tools.list_ports.comports())
 
@@ -41,7 +42,7 @@ class PyCtrl:
                         self._available_ports.append(p[0])  # Set port to in-use
                         self._available_arduinos.append(Arduino(p[0]))  # Add a new arduino to our list
                         if DEBUG:
-                            print('Added new Arduino on port: {0}'.format(color(p[0], COLORS.CYAN)))
+                            print('Added new Arduino on port: {0}'.format(color(p[0], COLORS.LIME)))
 
             # Remove inactive ports
             for k in self._available_ports:
@@ -50,14 +51,13 @@ class PyCtrl:
                     if k == p[0]:
                         r = 0
                 if r:
-                    del self._available_ports[k]
+                    self._available_ports.remove(k)  # Remove this port from our active list
                     if DEBUG:
-                        print('Removed inactive port: {0}'.format(color(k, COLORS.CYAN)))
+                        print('Removed inactive port: {0}'.format(color(k, COLORS.YELLOW)))
 
             # Update our actual list
             for ard in self._available_arduinos:
                 if not ard.get_port() in self._available_ports:
-                    ard.stop()
-                    del ard
+                    self._available_arduinos.remove(ard)  # Remove the reference to this arduino from our active list
 
             time.sleep(delay)
