@@ -7,7 +7,7 @@ class View:
     def __init__(self):
         """Initialize the main Program View.
         """
-
+        self.ports = list(serial.tools.list_ports.comports())
         root = Tk() # initialize Root window
 
         root.title('Centrale Project 2.1 - Computer System ') # set title for Root window
@@ -22,7 +22,7 @@ class View:
 
         # create a pulldown menu "FILE", and add it to the menu bar
         filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="Team", command=team)
+        filemenu.add_command(label="Team", command=View.team)
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=root.quit)
         menubar.add_cascade(label="Commands", menu=filemenu) # se the label in the menubar
@@ -37,47 +37,51 @@ class View:
         label.pack()
 
         # arduino detection
-        checkPortsOnce()
+        View.checkPortsOnce()
+
+        print("print: ")
+
+        #foo = "bar"
+        #exec(foo + " = 'something else'")
+        #print(bar)
 
         root.mainloop()
 
-def varInQuote():
-    term = "foo"
-    print("dikke vis %s" % term)
+    def checkPortsOnce():
 
-def team():
-    print("Team 6")
+        View.ports = list(serial.tools.list_ports.comports())
 
-def checkPortsOnce():
-    ports = list(serial.tools.list_ports.comports())
-    for p in ports:
-        print("port: ", p)
-        if "Arduino" in p[1]:
-            print("This is an Arduino!")
-            print("p0", p[0])
+        for p in View.ports:
+            print("port: ", p)
+            if "Arduino" in p[1]:
+                print("This is an Arduino!")
+                print("p0", p[0])
 
-def addArduinoGUI():
-    pass
+    def team():
+        print("Team 6")
+
+    def addArduinoGUI():
+        pass
 
 
-def checkPortsLoop():
-    ports = list(serial.tools.list_ports.comports())
-    for p in ports:
-        print("port: ", p)
-        if "Arduino" in p[1]:
-            print("This is an Arduino!")
-            print("p0", p[0])
-    i = 0
-    while i in range(10):
-        oldports = ports
+    def checkPortsLoop():
         ports = list(serial.tools.list_ports.comports())
-        if oldports != ports:
-            print("the ports have changed")
-            time.sleep(3)
-            i = i + 1
-            print(i)
-        else:
-            print("no changes detected")
-            time.sleep(3)
-            i = i + 1
-            print(i)
+        for p in ports:
+            print("port: ", p)
+            if "Arduino" in p[1]:
+                print("This is an Arduino!")
+                print("p0", p[0])
+        i = 0
+        while i in range(10):
+            oldports = ports
+            ports = list(serial.tools.list_ports.comports())
+            if oldports != ports:
+                print("the ports have changed")
+                time.sleep(3)
+                i = i + 1
+                print(i)
+            else:
+                print("no changes detected")
+                time.sleep(3)
+                i = i + 1
+                print(i)
