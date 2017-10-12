@@ -13,6 +13,7 @@ class PyCtrl:
     _stop = False  # Used to exit threads within THIS class
 
     def start(self):
+        self._stop = False  # Make sure we don't auto-stop on future runs.
         _thread.start_new_thread(self._update_ports, (5,))
         while not self._stop:
             time.sleep(2)  # Reduce CPU usage
