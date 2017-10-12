@@ -1,5 +1,5 @@
-import Arduino
-import Util
+from .Arduino import Arduino
+from .Util import *
 
 import time
 import serial.tools.list_ports
@@ -10,18 +10,30 @@ import _thread
 class PyCtrl:
     _available_ports = {}
     _available_arduinos = []
+    _stop = False  # Used to exit threads within THIS class.
 
     def __init__(self):
         # Make sure our list is always up-to-date
-        update_thread = _thread.start_new_thread(self._update_ports, self)
+        self.update_thread = _thread.start_new_thread(self._update_ports, 5)
 
         # Gotta go fast
         while 1:
             pass
 
+    def stop(self):
+        if DEBUG:
+            print(color('Stopping back-end process.', TextColors.YELLOW))
+        self._stop = True
+        for ard in self._available_arduinos:
+            ard.stop()
+
     # Listen to our available ports, and update them
-    def _update_ports(self):
+    def _update_ports(self, delay):
         while True:
+            if self._stop:
+                _thread.exit_thread()
+            if DEBUG:
+                print('Running port-scan.')
             # Get all ports
             ports = list(serial.tools.list_ports.comports())
 
@@ -31,6 +43,8 @@ class PyCtrl:
                     if not self._available_ports[p[0]]:
                         self._available_ports[p[0]] = True  # Set port to in-use
                         self._available_arduinos.append(Arduino(p[0]))  # Add a new arduino to our list
+                        if DEBUG:
+                            print('Added new Arduino on port: {0}'.format(p[0], TextColors.CYAN))
 
             # Remove inactive ports
             for k in self._available_ports.keys():
@@ -40,10 +54,13 @@ class PyCtrl:
                         r = 0
                 if r:
                     del self._available_ports[k]
+                    if DEBUG:
+                        print('Removed inactive port: {0}'.format(k, TextColors.CYAN))
 
             # Update our actual list
-            for a in self._available_arduinos:
-                if not a.get_port() in self._available_ports:
-                    del a
+            for ard in self._available_arduinos:
+                if not ard.get_port() in self._available_ports:
+                    ard.stop()
+                    del ard
 
-            time.sleep(1)  # Wait at least 1 second before re-checking
+            time.sleep(delay)
