@@ -1,5 +1,6 @@
 class STATE:
     STOPPED = hex(0)
+    RUNNING = hex(1)
 
 
 class COMMANDS:
