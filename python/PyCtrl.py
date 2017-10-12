@@ -13,6 +13,10 @@ class PyCtrl:
         # Make sure our list is always up-to-date
         _thread.start_new_thread(self._update_ports, self)
 
+        # Gotta go fast
+        while 1:
+            pass
+
     # Listen to our available ports, and update them
     def _update_ports(self):
         while True:
