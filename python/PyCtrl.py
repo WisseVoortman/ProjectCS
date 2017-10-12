@@ -1,5 +1,5 @@
-from .Arduino import Arduino
-from .Util import *
+from Arduino import Arduino
+from Util import *
 
 import time
 import serial.tools.list_ports
@@ -10,19 +10,16 @@ import _thread
 class PyCtrl:
     _available_ports = []
     _available_arduinos = []
-    _stop = False  # Used to exit threads within THIS class.
+    _stop = False  # Used to exit threads within THIS class
 
-    def __init__(self):
-        # Make sure our list is always up-to-date
-        self.update_thread = _thread.start_new_thread(self._update_ports, 5)
-
-        # Gotta go fast
-        while 1:
-            pass
+    def start(self):
+        _thread.start_new_thread(self._update_ports, (5,))
+        while not self._stop:
+            time.sleep(2)  # Reduce CPU usage
 
     def stop(self):
         if DEBUG:
-            print(color('Stopping back-end process.', TextColors.YELLOW))
+            print(color('Stopping back-end process.', COLORS.YELLOW))
         self._stop = True
         for ard in self._available_arduinos:
             ard.stop()
@@ -44,7 +41,7 @@ class PyCtrl:
                         self._available_ports.append(p[0])  # Set port to in-use
                         self._available_arduinos.append(Arduino(p[0]))  # Add a new arduino to our list
                         if DEBUG:
-                            print('Added new Arduino on port: {0}'.format(p[0], TextColors.CYAN))
+                            print('Added new Arduino on port: {0}'.format(color(p[0], COLORS.CYAN)))
 
             # Remove inactive ports
             for k in self._available_ports:
@@ -55,7 +52,7 @@ class PyCtrl:
                 if r:
                     del self._available_ports[k]
                     if DEBUG:
-                        print('Removed inactive port: {0}'.format(k, TextColors.CYAN))
+                        print('Removed inactive port: {0}'.format(color(k, COLORS.CYAN)))
 
             # Update our actual list
             for ard in self._available_arduinos:
