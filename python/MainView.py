@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import serial.tools.list_ports
 import time
+import arduinoGUI
 
 class View:
     def __init__(self):
@@ -39,11 +40,16 @@ class View:
         # arduino detection
         View.checkPortsOnce()
 
-        print("print: ")
+        for p in View.ports:
+            if "Arduino" in p[1]:
 
-        #foo = "bar"
-        #exec(foo + " = 'something else'")
-        #print(bar)
+                print("Arduino Gevonden op Poort: ", p[0])
+                exec("View." + p[0] + " = 'something else'") # going to assign a class here that is going to render the gui items that belong to a specific arduino
+                print("printing variable com3: ", View.COM3)
+            else:
+                pass
+
+
 
         root.mainloop()
 
@@ -53,16 +59,11 @@ class View:
 
         for p in View.ports:
             print("port: ", p)
-            if "Arduino" in p[1]:
-                print("This is an Arduino!")
-                print("p0", p[0])
+
+
 
     def team():
         print("Team 6")
-
-    def addArduinoGUI():
-        pass
-
 
     def checkPortsLoop():
         ports = list(serial.tools.list_ports.comports())
