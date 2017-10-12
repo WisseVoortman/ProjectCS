@@ -1,4 +1,4 @@
-import Util
+from .Util import *
 
 import time
 import serial.tools.list_ports
@@ -6,10 +6,18 @@ import _thread
 
 
 class Arduino:
-    port = 0
+    _port = 0
+    _stop = False  # Used to exit threads within THIS class.
 
     def __init__(self, port):
-        self.port = port
+        self._port = port
+
+    def stop(self):
+        self._stop = True
+        if DEBUG:
+            print('Sending [0] signal to Arduino on port: {1}'
+                  .format(color('STOP', TextColors.RED),
+                          color(self._port, TextColors.CYAN)))
 
     def get_port(self):
-        return self.port
+        return self._port
