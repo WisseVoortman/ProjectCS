@@ -37,12 +37,12 @@ class PyCtrl:
 
             # Check all ports
             for p in ports:
-                if "Arduino" in p[1]:
+                if "arduino" in p[1].lower():
                     if not p[0] in self._available_ports:
                         self._available_ports.append(p[0])  # Set port to in-use
                         self._available_arduinos.append(Arduino(p[0]))  # Add a new arduino to our list
                         if DEBUG:
-                            print('Added new Arduino on port: {0}'.format(color(p[0], COLORS.LIME)))
+                            print('Added new Arduino on port: {0}'.format(color(p[0], COLORS.CYAN, TextStyle.HIGHLIGHT)))
 
             # Remove inactive ports
             for k in self._available_ports:
@@ -53,7 +53,7 @@ class PyCtrl:
                 if r:
                     self._available_ports.remove(k)  # Remove this port from our active list
                     if DEBUG:
-                        print('Removed inactive port: {0}'.format(color(k, COLORS.YELLOW)))
+                        print('Removed inactive port: {0}'.format(color(k, COLORS.YELLOW, TextStyle.HIGHLIGHT)))
 
             # Update our actual list
             for ard in self._available_arduinos:
