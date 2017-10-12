@@ -8,7 +8,7 @@ import _thread
 
 # Main controller for back-end
 class PyCtrl:
-    _available_ports = {}
+    _available_ports = []
     _available_arduinos = []
     _stop = False  # Used to exit threads within THIS class.
 
@@ -40,14 +40,14 @@ class PyCtrl:
             # Check all ports
             for p in ports:
                 if "Arduino" in p[1]:
-                    if not self._available_ports[p[0]]:
-                        self._available_ports[p[0]] = True  # Set port to in-use
+                    if not p[0] in self._available_ports:
+                        self._available_ports.append(p[0])  # Set port to in-use
                         self._available_arduinos.append(Arduino(p[0]))  # Add a new arduino to our list
                         if DEBUG:
                             print('Added new Arduino on port: {0}'.format(p[0], TextColors.CYAN))
 
             # Remove inactive ports
-            for k in self._available_ports.keys():
+            for k in self._available_ports:
                 r = 1
                 for p in ports:
                     if k == p[0]:
