@@ -1,4 +1,4 @@
-from .Util import *
+from Util import *
 
 import time
 import serial.tools.list_ports
@@ -16,8 +16,8 @@ class Arduino:
         self._stop = True
         if DEBUG:
             print('Sending [0] signal to Arduino on port: {1}'
-                  .format(color('STOP', TextColors.RED),
-                          color(self._port, TextColors.CYAN)))
+                  .format(color('STOP', COLORS.RED),
+                          color(self._port, COLORS.CYAN)))
 
     def get_port(self):
         return self._port
