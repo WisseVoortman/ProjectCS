@@ -6,39 +6,26 @@ class COMMANDS:
     ACK = bin(0)
 
 
-class TextColors:
-    BLACK = 30
+class COLORS:
+    GRAY = 90
     RED = 31
-    GREEN = 32
-    YELLOW = 33
-    BLUE = 34
-    PURPLE = 35
-    CYAN = 36
-    WHITE = 37
+    LIME = 92
+    YELLOW = 93
+    BLUE = 94
+    PINK = 95
+    CYAN = 96
+    BLACK = 97
+    DEFAULT = 00
 
 
-class BackgroundColors:
-    BLACK = 40
-    RED = 41
-    GREEN = 42
-    YELLOW = 43
-    BLUE = 44
-    PURPLE = 45
-    CYAN = 46
-    WHITE = 47
+class TextStyle:
+    DEFAULT = 0
+    UNDERLINE = 4
+    HIGHLIGHT = 7
 
 
-# Might not be supported by all terminals
-class TextStyles:
-    NO_EFFECT = 0
-    BOLD = 1
-    UNDERLINE = 2
-    NEGATIVE1 = 3
-    NEGATIVE2 = 5
-
-
-def color(text, text_color=TextColors.WHITE, background_color=BackgroundColors.BLACK, style=TextStyles.NO_EFFECT):
-    return '\033[{0};{1};{2}m {3}\033[00m'.format(style, text_color, background_color, text)
+def color(text, _color=COLORS.DEFAULT, style=TextStyle.DEFAULT):
+    return '\033[{0};{1}m{2}\033[0;m'.format(style, _color, text)
 
 
 DEBUG = True  # Enable debug, Implement manually
