@@ -12,6 +12,10 @@ class Arduino:
     def __init__(self, port):
         self._port = port
 
+    def start(self):
+        self._stop = False  # Make sure it's not going to stop immediately.
+        # TODO: Add listener
+
     def stop(self):
         self._stop = True
         if DEBUG:
