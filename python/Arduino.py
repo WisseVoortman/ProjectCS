@@ -20,7 +20,7 @@ class Arduino:
         self._state = STATE.RUNNING
         self._listener.start()
 
-    def stop(self, silent):
+    def stop(self):
         self._stop = True
         self._state = STATE.STOPPED
         if DEBUG:
