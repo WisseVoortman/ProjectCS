@@ -53,6 +53,7 @@ class PyCtrl:
                 for p in ports:
                     if k == p[0]:
                         r = 0
+                        break
                 if r:
                     self._available_ports.remove(k)  # Remove this port from our active list
                     if DEBUG:

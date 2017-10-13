@@ -41,12 +41,22 @@ class Arduino:
                     byte = self._ser.read()
                     byte = '0x' + byte.hex()  # Write it as a proper hexadecimal
 
+                    if DEBUG:
+                        print('[{0}]: {1}'.format(self._port, byte))
+
                     if byte == COMMANDS.NOP:
                         pass
 
             except:
                 print(color('Failed to read data.', COLORS.RED))
-                self._stop = True
-                self._state = STATE.STOPPED
+                # Try to restart our serial connection
+                try:
+                    print(color('Attempting to re-open port: {0}'
+                                .format(color(self._port, COLORS.RED)), COLORS.LIME))
+                    self._ser = serial.Serial(port=self._port)
+                except:
+                    print(color('Failed to re-open port: {0}'
+                                .format(self._port), COLORS.RED))
+                time.sleep(5)  # Wait at least 5 seconds before continuing
 
-            time.sleep(delay)  # Wait about 100ms before polling again.
+            time.sleep(delay)  # Wait before polling again.
