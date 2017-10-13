@@ -6,6 +6,8 @@ class STATE:
 class COMMANDS:
     ACK = hex(0)
 
+    NOP = hex(255)
+
 
 class COLORS:
     GRAY = 90
