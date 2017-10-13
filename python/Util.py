@@ -1,12 +1,12 @@
 class STATE:
-    STOPPED = hex(0)
-    RUNNING = hex(1)
+    STOPPED = format(0, '#04x')
+    RUNNING = format(1, '#04x')
 
 
 class COMMANDS:
-    ACK = hex(0)
+    ACK = format(0, '#04x')
 
-    NOP = hex(255)
+    NOP = format(255, '#04x')
 
 
 class COLORS:

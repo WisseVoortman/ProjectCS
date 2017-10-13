@@ -36,10 +36,17 @@ class Arduino:
 
     def _listen(self, delay):
         while not self._stop:
-            if self._ser.inWaiting() > 0:
-                byte = self._ser.read()
+            try:
+                if self._ser.inWaiting() > 0:
+                    byte = self._ser.read()
+                    byte = '0x' + byte.hex()  # Write it as a proper hexadecimal
 
-                if byte == COMMANDS.NOP:
-                    pass
+                    if byte == COMMANDS.NOP:
+                        pass
+
+            except:
+                print(color('Failed to read data.', COLORS.RED))
+                self._stop = True
+                self._state = STATE.STOPPED
 
             time.sleep(delay)  # Wait about 100ms before polling again.
