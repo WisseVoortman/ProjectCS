@@ -2,14 +2,17 @@ from tkinter import *
 from tkinter import ttk
 
 class arduinoGUI:
-    def __init__(self, master):
+    def __init__(self, master, arduino):
         self.master = master
         self.frame = ttk.Frame(self.master)
 
         self.row = 0
 
+        # Reference for arduino object
+        self._arduino = arduino
+
         # hier wordt begonnen aan de daadwerkelijke GUI above was een test
-        self.id = Label(self.frame, text = "ID")
+        self.id = Label(self.frame, text="ID: " + self._arduino.get_port())
         self.id.grid(column=0, row=self.row)
 
         self.row = self.row + 1

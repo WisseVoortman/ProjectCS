@@ -4,21 +4,23 @@ import time
 import serial.tools.list_ports
 import serial
 import threading
-
+from arduinoGUI import arduinoGUI
 
 class Arduino:
     _stop = False  # Used to exit threads within THIS class.
     _state = STATE.STOPPED
 
-    def __init__(self, port):
+    def __init__(self, port, model):
         self._port = port
         self._ser = serial.Serial(port=self._port)  # Defaults to 9600 baudrate
         self._listener = threading.Thread(target=self._listen, args=(.2,))  # Prepare listener for .2 second interval
+        self._model = model
 
     def start(self):
         self._stop = False  # Make sure it's not going to stop immediately.
         self._state = STATE.RUNNING
         self._listener.start()
+        self._model.views[self._port] = arduinoGUI(self._model.mainframe, self)
 
     def stop(self):
         self._stop = True
@@ -27,6 +29,11 @@ class Arduino:
             print('{0} Arduino connection on port: {1}'
                   .format(color('STOPPING', COLORS.RED),
                           color(self._port, COLORS.CYAN)))
+
+        try:
+            del self._model.views[self._port]
+        except:
+            print("Couldn't delete view?")
 
     def get_state(self):
         return self._state

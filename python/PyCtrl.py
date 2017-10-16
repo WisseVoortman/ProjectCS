@@ -12,8 +12,9 @@ class PyCtrl:
     _available_arduinos = []
     _stop = False  # Used to exit threads within THIS class
 
-    def __init__(self):
+    def __init__(self, model):
         self._port_scanner = threading.Thread(target=self._update_ports, args=(5,))
+        self._model = model
 
     def start(self):
         self._stop = False  # Make sure we don't auto-stop on future runs.
@@ -25,6 +26,9 @@ class PyCtrl:
         self._stop = True
         for ard in self._available_arduinos:
             ard.stop()
+
+    def get_arduinos(self):
+        return self._available_arduinos
 
     # Listen to our available ports, and update them
     def _update_ports(self, delay):
@@ -40,7 +44,7 @@ class PyCtrl:
                 if "arduino" in p[1].lower():
                     if not p[0] in self._available_ports:
                         self._available_ports.append(p[0])  # Set port to in-use
-                        arduino = Arduino(p[0])
+                        arduino = Arduino(p[0], self._model)
                         self._available_arduinos.append(arduino)  # Add a new arduino to our list
                         arduino.start()
                         if DEBUG:

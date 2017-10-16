@@ -3,6 +3,7 @@ from tkinter import ttk
 import serial.tools.list_ports
 import time
 from arduinoGUI import *
+from PyCtrl import PyCtrl
 
 
 class mainView:
@@ -22,7 +23,7 @@ class mainView:
         filemenu = Menu(menubar, tearoff=0)
         filemenu.add_command(label="Team", command=mainView.team)
         filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=self.master.quit)
+        filemenu.add_command(label="Exit", command=self.quit)
         menubar.add_cascade(label="Commands", menu=filemenu)  # se the label in the menubar
 
         # display the menu
@@ -32,12 +33,19 @@ class mainView:
         #label.pack()
 
         # for element in list of arduino's (het is handig om dit mogelijk met een functie te doen zodat je die ook later kan aanroepen)
-        arduinoGUI(self.mainframe)
-        arduinoGUI(self.mainframe)
+        self.views = {}  # Empty list
+        self.pyctrl = PyCtrl(self)
+        self.pyctrl.start()
+        #arduinoGUI(self.mainframe)
+        #arduinoGUI(self.mainframe)
 
 
     def team():
         print("Team 6")
+
+    def quit(self):
+        self.pyctrl.stop()  # Will automatically stop all arduinos
+        self.master.quit()
 # END OF class: Mainview--------------------------------------------------------------------------
 
 
