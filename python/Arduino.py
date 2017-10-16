@@ -1,15 +1,62 @@
-import Util
+from Util import *
 
 import time
 import serial.tools.list_ports
-import _thread
+import serial
+import threading
 
 
 class Arduino:
-    port = 0
+    _stop = False  # Used to exit threads within THIS class.
+    _state = STATE.STOPPED
 
     def __init__(self, port):
-        self.port = port
+        self._port = port
+        self._ser = serial.Serial(port=self._port)  # Defaults to 9600 baudrate
+        self._listener = threading.Thread(target=self._listen, args=(.2,))  # Prepare listener for .2 second interval
+
+    def start(self):
+        self._stop = False  # Make sure it's not going to stop immediately.
+        self._state = STATE.RUNNING
+        self._listener.start()
+
+    def stop(self):
+        self._stop = True
+        self._state = STATE.STOPPED
+        if DEBUG:
+            print('{0} Arduino connection on port: {1}'
+                  .format(color('STOPPING', COLORS.RED),
+                          color(self._port, COLORS.CYAN)))
+
+    def get_state(self):
+        return self._state
 
     def get_port(self):
-        return self.port
+        return self._port
+
+    def _listen(self, delay):
+        while not self._stop:
+            try:
+                if self._ser.inWaiting() > 0:
+                    byte = self._ser.read()
+                    byte = '0x' + byte.hex()  # Write it as a proper hexadecimal
+
+                    if DEBUG:
+                        print('[{0}]: {1}'.format(self._port, byte))
+
+                    if byte == COMMANDS.NOP:
+                        pass
+
+            except:
+                print(color('Failed to read data.', COLORS.RED))
+                # Try to restart our serial connection
+                try:
+                    print(color('Attempting to re-open port: {0}'
+                                .format(color(self._port, COLORS.RED)), COLORS.LIME))
+                    self._ser = serial.Serial(port=self._port)
+                except:
+                    print(color('Failed to re-open port: {0}'
+                                .format(self._port), COLORS.RED))
+                time.sleep(5)  # Wait at least 5 seconds before continuing
+
+            time.sleep(delay)  # Wait before polling again.
