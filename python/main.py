@@ -33,7 +33,7 @@ class mainView:
         #label.pack()
 
         # for element in list of arduino's (het is handig om dit mogelijk met een functie te doen zodat je die ook later kan aanroepen)
-        self.views = {}  # Empty list
+        self.views = {}  # Empty dict
         self.pyctrl = PyCtrl(self)
         self.pyctrl.start()
         #arduinoGUI(self.mainframe)
