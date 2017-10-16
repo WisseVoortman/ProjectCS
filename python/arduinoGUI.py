@@ -2,8 +2,7 @@ from tkinter import *
 from tkinter import ttk
 
 class arduinoGUI:
-    def __init__(self, master, name):
-        self.name = name
+    def __init__(self, master):
         self.master = master
         self.frame = ttk.Frame(self.master)
 
@@ -40,7 +39,8 @@ class arduinoGUI:
 
         self.row = self.row + 1
 
-        self.master.add(self.frame, text=self.name) # deze moet nog even de text gewijzigd worden naar iets dynamics
+        self.master.add(self.frame, text="arduino") # deze moet nog even de text gewijzigd worden naar iets dynamics
+
     # junkfunctie voor test
     def team():
         print("Team 6")

@@ -32,8 +32,8 @@ class mainView:
         #label.pack()
 
         # for element in list of arduino's (het is handig om dit mogelijk met een functie te doen zodat je die ook later kan aanroepen)
-        arduinoGUI(self.mainframe, 'arduino 1')
-        arduinoGUI(self.mainframe, 'arduino 2')
+        arduinoGUI(self.mainframe)
+        arduinoGUI(self.mainframe)
 
 
     def team():
