@@ -2,23 +2,18 @@ from tkinter import *
 from tkinter import ttk
 import serial.tools.list_ports
 import time
-import arduinoGUI
 
 class View:
     def __init__(self):
         """Initialize the main Program View.
         """
         self.ports = list(serial.tools.list_ports.comports())
-
         self.root = Tk() # initialize Root window
-
         self.root.title('Centrale Project 2.1 - Computer System ') # set title for Root window
-
         self.root.geometry("800x500+200+200") # set size and location for Root window
-
-        self.mainframe = ttk.Frame(self.root, padding="3 3 12 12") # left top right bottem    create mainframe in Root winow
-
+        self.mainframe = ttk.Frame(self.root, padding="0 0 0 0") # left top right bottem    create mainframe in Root winow
         self.mainframe.grid(column=0, row=0, sticky=(N, W, S, E)) # set mainframe to root windows size
+        
 
         menubar = Menu(self.mainframe) # create a menubar
 
@@ -32,17 +27,8 @@ class View:
         # display the menu
         self.root.config(menu=menubar)
 
-        self.mainframe.columnconfigure(0, weight=1)
-        self.mainframe.rowconfigure(0, weight=1)
-
-        label = Label(self.mainframe, text="Hieronder de control units:")
+        label = Label(self.mainframe, text="Hieronder de control units: ", bg='red')
         label.grid(column=0, row=0)
-
-        label2 = Label(self.mainframe, text="hier een 2e label")
-        label2.grid(column=0, row=1)
-
-        label3 = Label(self.mainframe, text="hier een 3e label")
-        label3.grid(column=0, row=2)
 
         # arduino detection
         View.checkPortsOnce()
@@ -55,11 +41,10 @@ class View:
                 #print("printing variable com3: ", View.COM3)
 
                 # starting Arduino GUI construction here
-                frame = ttk.Frame(self.mainframe, padding = "3 3 12 12")  # left top right bottem    create mainframe in Root winow
+                frame = ttk.Labelframe(self.mainframe, padding = "3 3 3 3", text=p[0])  # left top right bottem    create mainframe in Root winow
                 label = Label(frame, text="zie hier het arduinoGUI label")
                 label.pack()
-                frame.grid(column=0, row=3)
-
+                frame.grid(column=0, row=1)
             else:
                 pass
 

@@ -1,6 +1,6 @@
 import serial.tools.list_ports
 import time
-import MainView
+import View2
 
-a = MainView.View()
+view2.main()
 
