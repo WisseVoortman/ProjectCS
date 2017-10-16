@@ -44,6 +44,9 @@ class arduinoGUI:
 
         self.master.add(self.frame, text="arduino") # deze moet nog even de text gewijzigd worden naar iets dynamics
 
+    def remove(self):
+        self.frame.destroy()
+
     # junkfunctie voor test
     def team():
         print("Team 6")

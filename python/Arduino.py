@@ -31,7 +31,7 @@ class Arduino:
                           color(self._port, COLORS.CYAN)))
 
         try:
-            del self._model.views[self._port]
+            self._model.views[self._port].remove()
         except:
             print("Couldn't delete view?")
 
