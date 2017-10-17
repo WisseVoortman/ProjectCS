@@ -4,7 +4,8 @@ import time
 import serial.tools.list_ports
 import serial
 import threading
-from arduinoGUI import arduinoGUI
+from ArduinoGUI import ArduinoGUI
+
 
 class Arduino:
     _stop = False  # Used to exit threads within THIS class.
@@ -20,7 +21,7 @@ class Arduino:
         self._stop = False  # Make sure it's not going to stop immediately.
         self._state = STATE.RUNNING
         self._listener.start()
-        self._model.views[self._port] = arduinoGUI(self._model.mainframe, self)
+        self._model.views[self._port] = ArduinoGUI(self._model.mainframe, self)
 
     def stop(self):
         self._stop = True
@@ -46,16 +47,18 @@ class Arduino:
         send_thread.start()
 
     def _send(self, command, args):
-        self._ser.write(command)  # Send the command
+        self._ser.write(bytes([command]))
+
         for param in args:
-            self._ser.write(param)  # Send all parameters
+            self._ser.write(bytes([param]))  # Send all parameters
 
     def _listen(self, delay):
         while not self._stop:
             try:
                 if self._ser.inWaiting() > 0:
                     byte = self._ser.read()
-                    byte = '0x' + byte.hex()  # Write it as a proper hexadecimal
+                    byte = int.from_bytes(byte, byteorder='big')
+                    byte = '{0:08b}'.format(byte)
 
                     if DEBUG:
                         print('[{0}]: {1}'.format(self._port, byte))

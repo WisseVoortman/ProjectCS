@@ -1,12 +1,12 @@
 class STATE:
-    STOPPED = format(0, '#04x')
-    RUNNING = format(1, '#04x')
+    STOPPED = '{0:08b}'.format(0)
+    RUNNING = '{0:08b}'.format(1)
 
 
 class COMMANDS:
-    ACK = format(0, '#04x')
+    ACK = '{0:08b}'.format(0)
 
-    NOP = format(255, '#04x')
+    NOP = '{0:08b}'.format(127)
 
 
 class COLORS:

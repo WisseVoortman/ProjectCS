@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import serial.tools.list_ports
 import time
-from arduinoGUI import *
+from ArduinoGUI import *
 from PyCtrl import PyCtrl
 
 
@@ -36,8 +36,8 @@ class mainView:
         self.views = {}  # Empty dict
         self.pyctrl = PyCtrl(self)
         self.pyctrl.start()
-        #arduinoGUI(self.mainframe)
-        #arduinoGUI(self.mainframe)
+        #ArduinoGUI(self.mainframe)
+        #ArduinoGUI(self.mainframe)
 
 
     def team():
