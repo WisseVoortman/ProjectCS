@@ -55,7 +55,7 @@ class Arduino:
     def _listen(self, delay):
         while not self._stop:
             try:
-                if self._ser.inWaiting() > 0:
+                while self._ser.inWaiting() > 0:
                     byte = self._ser.read()
                     byte = int.from_bytes(byte, byteorder='big')
                     byte = '{0:08b}'.format(byte)
