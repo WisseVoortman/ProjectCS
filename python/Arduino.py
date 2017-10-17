@@ -41,6 +41,15 @@ class Arduino:
     def get_port(self):
         return self._port
 
+    def send(self, command, args):
+        send_thread = threading.Thread(target=self._send, args=(command, args))
+        send_thread.start()
+
+    def _send(self, command, args):
+        self._ser.write(command)  # Send the command
+        for param in args:
+            self._ser.write(param)  # Send all parameters
+
     def _listen(self, delay):
         while not self._stop:
             try:
