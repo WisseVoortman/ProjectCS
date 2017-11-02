@@ -13,7 +13,7 @@ class PyCtrl:
     _stop = False  # Used to exit threads within THIS class
 
     def __init__(self, model):
-        self._port_scanner = threading.Thread(target=self._update_ports, args=(5,))
+        self._port_scanner = threading.Thread(target=self._update_ports, args=(5,)) # args = tijd tussen com poort scans
         self._model = model
 
     def start(self):
