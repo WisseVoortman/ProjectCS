@@ -45,25 +45,10 @@ class ArduinoGUI:
 
         self.row = self.row + 1
 
-        self.test = ttk.Button(self.frame, text='Test Arduino connection', width=25, command=self.test)
-        self.test.grid(column=0, row=self.row)
-
-        self.row = self.row + 1
-
         self.master.add(self.frame, text="arduino")  # deze moet nog even de text gewijzigd worden naar iets dynamics
 
     def remove(self):
         self.frame.destroy()
-
-    def _test(self):
-        # Send all digits between 0 > < 128
-        for i in range(128):
-            self._arduino.send(i, args=[])
-            time.sleep(.6)  # Sleep for 2 seconds
-
-    def test(self):
-        bra = threading.Thread(target=self._test, args=())
-        bra.start()
 
     # junkfunctie voor test
     def team(self):
