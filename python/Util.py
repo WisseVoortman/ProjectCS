@@ -1,12 +1,14 @@
 class STATE:
-    STOPPED = '{0:08b}'.format(0)
-    RUNNING = '{0:08b}'.format(1)
+    STOPPED = 0
+    RUNNING = 1
 
 
 class COMMANDS:
-    ACK = '{0:08b}'.format(0)
+    ACK = 0
+    SEND_TEMP = 1
+    SEND_LIGHT = 2
 
-    NOP = '{0:08b}'.format(127)
+    NOP = 127
 
 
 class COLORS:

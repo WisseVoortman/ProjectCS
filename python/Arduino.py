@@ -4,6 +4,7 @@ import time
 import serial.tools.list_ports
 import serial
 import threading
+
 from ArduinoGUI import ArduinoGUI
 
 
@@ -55,16 +56,28 @@ class Arduino:
     def _listen(self, delay):
         while not self._stop:
             try:
+
                 while self._ser.inWaiting() > 0:
                     byte = self._ser.read()
                     byte = int.from_bytes(byte, byteorder='big')
-                    byte = '{0:08b}'.format(byte)
 
                     if DEBUG:
                         print('[{0}]: {1}'.format(self._port, byte))
 
                     if byte == COMMANDS.NOP:
                         pass
+                    elif byte == COMMANDS.SEND_TEMP:
+                        a = self._ser.readline()
+                        analogValue = int(a)
+                        #TODO: Add the temperature calculation formula
+                        if DEBUG:
+                            print('[{0}]: Recevied {1} sensor reading - {2}'.format(self._port, 'temperature', a))
+                    elif byte == COMMANDS.SEND_LIGHT:
+                        a = self._ser.readline()
+                        analogValue = int(a)
+                        #TODO: Add the light calculation formula
+                        if DEBUG:
+                            print('[{0}]: Recevied {1} sensor reading - {2}'.format(self._port, 'light', a))
 
             except:
                 print(color('Failed to read data.', COLORS.RED))
