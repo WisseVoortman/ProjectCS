@@ -69,7 +69,7 @@ class Arduino:
                     elif byte == COMMANDS.SEND_TEMP:
                         reading = self._ser.readline()
                         analog_value = int(reading)
-                        voltage = reading * 5.0 / 1024
+                        voltage = analog_value * 5.0 / 1024
                         temperature = (voltage - 0.5) * 100
                         if DEBUG:
                             print('[{0}]: Recevied {1} sensor reading - {2} - {3}v - {4} degrees C.'
