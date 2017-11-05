@@ -72,13 +72,13 @@ class Arduino:
                         voltage = analog_value * 5.0 / 1024
                         temperature = (voltage - 0.5) * 100
                         if DEBUG:
-                            print('[{0}]: Recevied {1} sensor reading - {2} - {3}v - {4} degrees C.'
+                            print('[{0}]: Received {1} sensor reading - {2} - {3}v - {4} degrees C.'
                                   .format(self._port, 'temperature', analog_value, voltage, temperature))
                     elif byte == COMMANDS.SEND_LIGHT:
                         reading = self._ser.readline()
                         analog_value = int(reading)
                         if DEBUG:
-                            print('[{0}]: Recevied {1} sensor reading - {2}'.format(self._port, 'light', analog_value))
+                            print('[{0}]: Received {1} sensor reading - {2}'.format(self._port, 'light', analog_value))
 
             except:
                 print(color('Failed to read data.', COLORS.RED))
