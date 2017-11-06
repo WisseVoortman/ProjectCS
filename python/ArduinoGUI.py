@@ -47,6 +47,12 @@ class ArduinoGUI:
 
         self.master.add(self.frame, text="arduino")  # deze moet nog even de text gewijzigd worden naar iets dynamics
 
+        # Chart lists
+        temp_list_value = []
+        temp_list_time = []
+        light_list_value = []
+        light_list_time = []
+
     def remove(self):
         self.frame.destroy()
 
