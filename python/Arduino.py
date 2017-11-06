@@ -4,6 +4,7 @@ import time
 import serial.tools.list_ports
 import serial
 import threading
+from datetime import datetime
 
 from ArduinoGUI import ArduinoGUI
 
@@ -74,11 +75,19 @@ class Arduino:
                         if DEBUG:
                             print('[{0}]: Received {1} sensor reading - {2} - {3}v - {4} degrees C.'
                                   .format(self._port, 'temperature', analog_value, voltage, temperature))
+
+                            # Plot chart
+                            self._model.views[self._port].temp_list_value.append(temperature)
+                            self._model.views[self._port].temp_list_time.append(datetime.now().time())
                     elif byte == COMMANDS.SEND_LIGHT:
                         reading = self._ser.readline()
                         analog_value = int(reading)
                         if DEBUG:
                             print('[{0}]: Received {1} sensor reading - {2}'.format(self._port, 'light', analog_value))
+
+                            # Plot chart
+                            self._model.views[self._port].light_list_value.append(analog_value)
+                            self._model.views[self._port].light_list_time.append(datetime.now().time())
 
             except:
                 print(color('Failed to read data.', COLORS.RED))
