@@ -22,7 +22,11 @@ class ArduinoGUI:
         self.frameone.grid(column=0, row=0)
         self.frametwo.grid(column=1, row=0)
 
+        self.temptime = [1, 2, 3, 4, 5, 6, 7]
+        self.tempvalue = [20, 17, 23, 20, 19, 18, 22]
 
+        self.lighttime = [1, 2, 3, 4, 5, 6, 7]
+        self.lightvalue = [12, 8, 9, 10, 13, 7, 10]
 
         # hier wordt begonnen aan de daadwerkelijke GUI above was een test
         self.id = Label(self.frameone, text="ID: " + self._arduino.get_port())
@@ -50,37 +54,36 @@ class ArduinoGUI:
         self.uitrollen.pack()
 
 
-        self.master.add(self.frame, text="arduino")  # notebook tab label: deze moet nog even de text gewijzigd worden naar iets dynamics
 
-        temptime = [1, 2, 3, 4, 5, 6, 7]
-        tempvalue = [20, 17, 23, 20, 19, 18, 22]
-
-        lighttime = [1, 2, 3, 4, 5, 6, 7]
-        lightvalue = [12, 8, 9, 10, 13, 7, 10]
+        self.master.add(self.frame, text="arduino")  # notebook tab label: deze moet nog even de text gewijzigd worden naar iets dynamics moet mogelijk naar beneden verhuist worden.
 
         self.f = Figure(figsize=(7, 7), dpi=100)
         self.a1 = self.f.add_subplot(211)
         self.a2 = self.f.add_subplot(212)
 
-        # plt.title("Hier is die fucking dikke title  bitch")
-        # plt.ylabel('Temp Value')
-        # plt.xlabel('Time ')
-        # plt.legend()
-        self.a1.plot(temptime, tempvalue, label='Temp')
+        self.a1.plot(self.temptime, self.tempvalue, label='Temp')
         self.a1.set_title('Temperatuur:', loc='left')
         self.a1.set_xlabel('Tijdstip')
 
         self.a1.set_ylabel('Waarde')
         self.a1.legend()
 
-        # plt.ylabel('Light Value')
-        # plt.xlabel('Time ')
-        self.a2.plot(lighttime, lightvalue, label='Light')
+        self.a2.plot(self.lighttime, self.lightvalue, label='Light')
         self.a2.set_title('Licht:', loc='left')
-        #self.a2.set_title()
+
         self.a2.set_xlabel('Tijdstip')
         self.a2.set_ylabel('Waarde')
         self.a2.legend()
+
+        self.moddata = ttk.Button(self.frameone, text='mod data', width=25, command = self.modifydata)
+        self.moddata.pack()
+
+        self.redrawtestbutton = ttk.Button(self.frameone, text='redraw testen', width=25,
+                                     command=self.redraw)
+        self.redrawtestbutton.pack()
+
+        self.addtoolbar = ttk.Button(self.frameone, text='addtoolbar', width=25, command = self.addtoolbar)
+        self.addtoolbar.pack()
 
         # a tk.DrawingArea
         self.canvas = FigureCanvasTkAgg(self.f, master=self.frametwo)
@@ -88,19 +91,47 @@ class ArduinoGUI:
         self.canvas.get_tk_widget().pack()
 
         # code voor de toolbar van mathplot
-        #toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametwo) #doesnt work becahse it uses pack instead of Grid
-        #toolbar.update()
+        #self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametwo) #doesnt work becahse it uses pack instead of Grid
+        #self.toolbar.update()
         self.canvas._tkcanvas.pack()
-
-        # Chart lists
-        self.temp_list_value = []
-        self.temp_list_time = []
-        self.light_list_value = []
-        self.light_list_time = []
 
     def remove(self):
         self.frame.destroy()
 
+    def addtoolbar(self):
+        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametwo) #doesnt work becahse it uses pack instead of Grid
+        self.toolbar.update()
+
     # junkfunctie voor test
     def team(self):
         print("Team 6")
+
+    def redraw(self):
+        #self.a1.clear()
+        #self.a2.clear()
+        self.f.clear()
+
+        #self.a1 = self.f.add_subplot(211)
+        #self.a2 = self.f.add_subplot(212)
+
+        #self.a1.plot(self.temptime, self.tempvalue, label='Temp')
+        #self.a1.set_title('Temperatuur:', loc='left')
+        #self.a1.set_xlabel('Tijdstip')
+        #self.a1.set_ylabel('Waarde')
+        #self.a1.legend()
+
+        #self.a2.plot(self.lighttime, self.lightvalue, label='Light')
+        #self.a2.set_title('Licht:', loc='left')
+        #self.a2.set_xlabel('Tijdstip')
+        #self.a2.set_ylabel('Waarde')
+        #self.a2.legend()
+        print('godverdome')
+
+    def modifydata(self):
+        #self.temptime = self.temptime + 5
+        self.tempvalue[0] = self.tempvalue[0] + 5
+        #self.lighttime = self.lighttime + 5
+        #self.lightvalue = self.lightvalue + 5
+        print(self.tempvalue)
+
+
