@@ -22,6 +22,8 @@ class ArduinoGUI:
         self.frameone.grid(column=0, row=0)
         self.frametwo.grid(column=1, row=0)
 
+        self.toolbarboolean = FALSE
+
         self.temptime = [1, 2, 3, 4, 5, 6, 7]
         self.tempvalue = [20, 17, 23, 20, 19, 18, 22]
 
@@ -82,8 +84,8 @@ class ArduinoGUI:
                                      command=self.redraw)
         self.redrawtestbutton.pack()
 
-        self.addtoolbar = ttk.Button(self.frameone, text='addtoolbar', width=25, command = self.addtoolbar)
-        self.addtoolbar.pack()
+        self.toolbarOnOff = ttk.Button(self.frameone, text='addtoolbar', width=25, command = self.toolbarOnOff)
+        self.toolbarOnOff.pack()
 
         # a tk.DrawingArea
         self.canvas = FigureCanvasTkAgg(self.f, master=self.frametwo)
@@ -98,34 +100,22 @@ class ArduinoGUI:
     def remove(self):
         self.frame.destroy()
 
-    def addtoolbar(self):
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametwo) #doesnt work becahse it uses pack instead of Grid
-        self.toolbar.update()
+    def toolbarOnOff(self):
+        if self.toolbarboolean == FALSE:
+            self.toolbarboolean = TRUE
+            self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametwo) #doesnt work becahse it uses pack instead of Grid
+            self.toolbar.update()
+        elif self.toolbarboolean == TRUE:
+            self.toolbarboolean = FALSE
+            self.toolbar.destroy()
+
 
     # junkfunctie voor test
     def team(self):
         print("Team 6")
 
     def redraw(self):
-        #self.a1.clear()
-        #self.a2.clear()
-        self.f.clear()
-
-        #self.a1 = self.f.add_subplot(211)
-        #self.a2 = self.f.add_subplot(212)
-
-        #self.a1.plot(self.temptime, self.tempvalue, label='Temp')
-        #self.a1.set_title('Temperatuur:', loc='left')
-        #self.a1.set_xlabel('Tijdstip')
-        #self.a1.set_ylabel('Waarde')
-        #self.a1.legend()
-
-        #self.a2.plot(self.lighttime, self.lightvalue, label='Light')
-        #self.a2.set_title('Licht:', loc='left')
-        #self.a2.set_xlabel('Tijdstip')
-        #self.a2.set_ylabel('Waarde')
-        #self.a2.legend()
-        print('godverdome')
+        pass
 
     def modifydata(self):
         #self.temptime = self.temptime + 5
