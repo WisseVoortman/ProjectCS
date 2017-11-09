@@ -19,8 +19,10 @@ class ArduinoGUI:
         # verdeel het GUI scherm in 2 aparte frame 1 voor data en knoppen, de ander voor de mathplot
         self.frameone = ttk.Frame(self.frame)
         self.frametwo = ttk.Frame(self.frame)
+        self.frametree = ttk.Frame(self.frame)
         self.frameone.grid(column=0, row=0)
         self.frametwo.grid(column=1, row=0)
+        self.frametree.grid(column=1, row=1)
 
         self.toolbarboolean = FALSE
 
@@ -103,7 +105,7 @@ class ArduinoGUI:
     def toolbarOnOff(self):
         if self.toolbarboolean == FALSE:
             self.toolbarboolean = TRUE
-            self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametwo) #doesnt work becahse it uses pack instead of Grid
+            self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametree)
             self.toolbar.update()
         elif self.toolbarboolean == TRUE:
             self.toolbarboolean = FALSE
@@ -115,7 +117,52 @@ class ArduinoGUI:
         print("Team 6")
 
     def redraw(self):
-        pass
+        #self.frametwo.destroy()
+        #self.a1.clear()
+        #self.a1.redraw_in_frame()
+        #self.a2.redraw_in_frame()
+
+        #self.a1 = self.f.add_subplot(211)
+        #self.a2 = self.f.add_subplot(212)
+
+        #self.a1.plot(self.temptime, self.tempvalue)
+        #self.a1.set_title('Temperatuur:', loc='left')
+        #self.a1.set_xlabel('Tijdstip')
+        #self.a1.set_ylabel('Waarde')
+        #self.a1.legend()
+
+        #self.a2.plot(self.lighttime, self.lightvalue)
+        #self.a2.set_title('Licht:', loc='left')
+        #self.a2.set_xlabel('Tijdstip')
+        #self.a2.set_ylabel('Waarde')
+        #self.a2.legend()
+
+        print('godverdome')
+        self.frametwo = ttk.Frame(self.frame)
+        self.frametwo.grid(column=1, row=0)
+        self.f = Figure(figsize=(7, 7), dpi=100)
+        self.a1 = self.f.add_subplot(211)
+        self.a2 = self.f.add_subplot(212)
+
+        self.a1.plot(self.temptime, self.tempvalue, label='Temp')
+        self.a1.set_title('Temperatuur:', loc='left')
+        self.a1.set_xlabel('Tijdstip')
+
+        self.a1.set_ylabel('Waarde')
+        self.a1.legend()
+
+        self.a2.plot(self.lighttime, self.lightvalue, label='Light')
+        self.a2.set_title('Licht:', loc='left')
+
+        self.a2.set_xlabel('Tijdstip')
+        self.a2.set_ylabel('Waarde')
+        self.a2.legend()
+
+        self.canvas = FigureCanvasTkAgg(self.f, master=self.frametwo)
+        self.canvas.show()
+        self.canvas.get_tk_widget().pack()
+
+        self.canvas._tkcanvas.pack()
 
     def modifydata(self):
         #self.temptime = self.temptime + 5
