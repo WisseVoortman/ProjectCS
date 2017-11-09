@@ -20,8 +20,8 @@ class ArduinoGUI:
         self.frameone = ttk.Frame(self.frame)
         self.frametwo = ttk.Frame(self.frame)
         self.frametree = ttk.Frame(self.frame)
-        self.frameone.grid(column=0, row=0)
-        self.frametwo.grid(column=1, row=0)
+        self.frameone.grid(column=0, row=0, sticky='NE')
+        self.frametwo.grid(column=1, row=0, sticky='NE')
         self.frametree.grid(column=1, row=1)
 
         self.toolbarboolean = FALSE
@@ -117,8 +117,7 @@ class ArduinoGUI:
         print("Team 6")
 
     def redraw(self):
-        #self.frametwo.destroy()
-        #self.a1.clear()
+        #self.a1.clear()                                # this commented out part somehow didnt do the trick, still havent found out why. therefore the entire mathplot frame is currently being scrapped and rerender agine.
         #self.a1.redraw_in_frame()
         #self.a2.redraw_in_frame()
 
