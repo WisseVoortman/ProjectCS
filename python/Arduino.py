@@ -77,8 +77,14 @@ class Arduino:
                                   .format(self._port, 'temperature', analog_value, voltage, temperature))
 
                             # Plot chart
-                            self._model.views[self._port].temp_list_value.append(temperature)
-                            self._model.views[self._port].temp_list_time.append(datetime.now().time())
+                            self._model.views[self._port].tempvalue.append(temperature)
+                            self._model.views[self._port].temptime.append(datetime.now().strftime("%H:%M:%S"))
+
+                            if self._model.views[self._port].tempvalue.count() > 7:
+                                self._model.views[self._port].tempvalue.pop(0)
+                                self._model.views[self._port].temptime.pop(0)
+
+                            self._model.views[self._port].redraw()
                     elif byte == COMMANDS.SEND_LIGHT:
                         reading = self._ser.readline()
                         analog_value = int(reading)
@@ -86,8 +92,14 @@ class Arduino:
                             print('[{0}]: Received {1} sensor reading - {2}'.format(self._port, 'light', analog_value))
 
                             # Plot chart
-                            self._model.views[self._port].light_list_value.append(analog_value)
-                            self._model.views[self._port].light_list_time.append(datetime.now().time())
+                            self._model.views[self._port].lightvalue.append(analog_value)
+                            self._model.views[self._port].lighttime.append(datetime.now().strftime("%H:%M:%S"))
+
+                            if self._model.views[self._port].lightvalue.count() > 7:
+                                self._model.views[self._port].lightvalue.pop(0)
+                                self._model.views[self._port].lighttime.pop(0)
+
+                            self._model.views[self._port].redraw()
 
             except:
                 print(color('Failed to read data.', COLORS.RED))
