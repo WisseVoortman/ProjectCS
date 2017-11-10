@@ -1,5 +1,6 @@
 from Util import *
 
+import sys
 import time
 import serial.tools.list_ports
 import serial
@@ -80,7 +81,7 @@ class Arduino:
                             self._model.views[self._port].tempvalue.append(temperature)
                             self._model.views[self._port].temptime.append(datetime.now().strftime("%H:%M:%S"))
 
-                            if self._model.views[self._port].tempvalue.count() > 7:
+                            if len(self._model.views[self._port].tempvalue) > 7:
                                 self._model.views[self._port].tempvalue.pop(0)
                                 self._model.views[self._port].temptime.pop(0)
 
@@ -95,13 +96,15 @@ class Arduino:
                             self._model.views[self._port].lightvalue.append(analog_value)
                             self._model.views[self._port].lighttime.append(datetime.now().strftime("%H:%M:%S"))
 
-                            if self._model.views[self._port].lightvalue.count() > 7:
+                            if len(self._model.views[self._port].lightvalue) > 7:
                                 self._model.views[self._port].lightvalue.pop(0)
                                 self._model.views[self._port].lighttime.pop(0)
 
                             self._model.views[self._port].redraw()
 
             except:
+                print(color('Unexpected error:: {0}'
+                            .format(color(sys.exc_info(), COLORS.RED)), COLORS.YELLOW))
                 print(color('Failed to read data.', COLORS.RED))
                 # Try to restart our serial connection
                 try:
