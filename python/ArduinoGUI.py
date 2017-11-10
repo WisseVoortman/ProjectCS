@@ -17,49 +17,46 @@ class ArduinoGUI:
         self._arduino = arduino
 
         # verdeel het GUI scherm in 2 aparte frame 1 voor data en knoppen, de ander voor de mathplot
-        self.frameone = ttk.Frame(self.frame)
-        self.frametwo = ttk.Frame(self.frame)
-        self.frametree = ttk.Frame(self.frame)
-        self.frameone.grid(column=0, row=0, sticky='NE')
-        self.frametwo.grid(column=1, row=0, sticky='NE')
+        self.frameone = ttk.Frame(self.frame) #contains all the buttons and labels
+        self.frametwo = ttk.Frame(self.frame) # contains the mathplot
+        self.frametree = ttk.Frame(self.frame) #contains the toolbar for the mathplot
+        self.frameone.grid(column=0, row=0, sticky='NW') #sticks frames to the upper left corner of the root window
+        self.frametwo.grid(column=1, row=0, sticky='NW')
         self.frametree.grid(column=1, row=1)
 
-        self.toolbarboolean = FALSE
+        self.toolbarboolean = FALSE # control boolean for the toolbar rendering
 
+        #list that will contain the data that is passed by the arduino sensors
         self.temptime = [1, 2, 3, 4, 5, 6, 7]
         self.tempvalue = [20, 17, 23, 20, 19, 18, 22]
 
         self.lighttime = [1, 2, 3, 4, 5, 6, 7]
         self.lightvalue = [12, 8, 9, 10, 13, 7, 10]
 
-        # hier wordt begonnen aan de daadwerkelijke GUI above was een test
-        self.id = Label(self.frameone, text="ID: " + self._arduino.get_port())
-        self.id.pack()
+        # Control variables for the input fields
+        temp = StringVar()
+        light = StringVar()
+
+        #start GUI
+        self.id = Label(self.frameone, text="COM Port: " + self._arduino.get_port())
+        self.id.grid(column=0, row=0)
+
+        self.status = Label(self.frameone, text="Huidige status")  # rolled in, rolled out, or rolling
+        self.status.grid(column=0, row=1)
+
+        self.mode = Label(self.frameone, text = "Huidige modus: ") # automatic or manual
+        self.mode.grid(column=0, row=2)
+
+        self.changeMode = ttk.Button(self.frameone, text='change mode', width=25, command=self.team) # should change the mode from automatic to manual or the other way around
+        self.changeMode.grid(column=0, row=3)
 
 
-
-        self.mode = Label(self.frameone, text = "Huidige modus: ")
-        self.mode.pack()
-
-
-        self.status = Label(self.frameone, text = "Huidige status")
-        self.status.pack()
+        self.inrollen = ttk.Button(self.frameone, text='Roll in', width=25, command=self.team) # should change the mode to manual and call roll in
+        self.inrollen.grid(column=0, row=4)
 
 
-        self.changeMode = ttk.Button(self.frameone, text='change mode', width=25, command=self.team)
-        self.changeMode.pack()
-
-
-        self.inrollen = ttk.Button(self.frameone, text='Roll in', width=25, command=self.team)
-        self.inrollen.pack()
-
-
-        self.uitrollen = ttk.Button(self.frameone, text='Roll out', width=25, command=self.team)
-        self.uitrollen.pack()
-
-
-
-        self.master.add(self.frame, text="arduino")  # notebook tab label: deze moet nog even de text gewijzigd worden naar iets dynamics moet mogelijk naar beneden verhuist worden.
+        self.uitrollen = ttk.Button(self.frameone, text='Roll out', width=25, command=self.team) # should change the mode to manual and roll out
+        self.uitrollen.grid(column=0, row=5)
 
         self.f = Figure(figsize=(7, 7), dpi=100)
         self.a1 = self.f.add_subplot(211)
@@ -80,24 +77,45 @@ class ArduinoGUI:
         self.a2.legend()
 
         self.moddata = ttk.Button(self.frameone, text='mod data', width=25, command = self.modifydata)
-        self.moddata.pack()
+        self.moddata.grid(column=0, row=6)
 
         self.redrawtestbutton = ttk.Button(self.frameone, text='redraw testen', width=25,
                                      command=self.redraw)
-        self.redrawtestbutton.pack()
+        self.redrawtestbutton.grid(column=0, row=7)
 
         self.toolbarOnOff = ttk.Button(self.frameone, text='addtoolbar', width=25, command = self.toolbarOnOff)
-        self.toolbarOnOff.pack()
+        self.toolbarOnOff.grid(column=0, row=8)
+
+        self.temp_entry = ttk.Entry(self.frameone, width=25, textvariable=temp)
+        self.temp_entry.grid(column=0, row=10)
+
+        self.templabel = Label(self.frameone, text="Temperatuur: ")  # rolled in, rolled out, or rolling
+        self.templabel.grid(column=0, row=9, sticky=(W))
+
+        self.light_entry = ttk.Entry(self.frameone, width=25, textvariable=light)
+        self.light_entry.grid(column=0, row=12)
+
+        self.templabel = Label(self.frameone, text="Light: ")  # rolled in, rolled out, or rolling
+        self.templabel.grid(column=0, row=11, sticky=(W))
+
+        self.setTemp = ttk.Button(self.frameone, text='Set temperatuur', width=25, command=self.setTemp)
+        self.setTemp.grid(column=1, row=10)
+
+        self.setLight = ttk.Button(self.frameone, text='Set temperatuur', width=25, command=self.setLight)
+        self.setLight.grid(column=1, row=12)
+
 
         # a tk.DrawingArea
         self.canvas = FigureCanvasTkAgg(self.f, master=self.frametwo)
         self.canvas.show()
         self.canvas.get_tk_widget().pack()
 
-        # code voor de toolbar van mathplot
-        #self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametwo) #doesnt work becahse it uses pack instead of Grid
-        #self.toolbar.update()
         self.canvas._tkcanvas.pack()
+
+        for child in self.frameone.winfo_children():
+            child.grid_configure(padx=5, pady=5)
+
+        self.master.add(self.frame, text="arduino")  # notebook tab label: deze moet nog even de text gewijzigd worden naar iets dynamics
 
     def remove(self):
         self.frame.destroy()
@@ -118,9 +136,7 @@ class ArduinoGUI:
 
     def redraw(self):
         #self.a1.clear()                                # this commented out part somehow didnt do the trick, still havent found out why. therefore the entire mathplot frame is currently being scrapped and rerender agine.
-        #self.a1.redraw_in_frame()
-        #self.a2.redraw_in_frame()
-
+        #self.a2.clear()
         #self.a1 = self.f.add_subplot(211)
         #self.a2 = self.f.add_subplot(212)
 
@@ -164,10 +180,13 @@ class ArduinoGUI:
         self.canvas._tkcanvas.pack()
 
     def modifydata(self):
-        #self.temptime = self.temptime + 5
         self.tempvalue[0] = self.tempvalue[0] + 5
-        #self.lighttime = self.lighttime + 5
-        #self.lightvalue = self.lightvalue + 5
         print(self.tempvalue)
+
+    def setTemp(self):
+        print('hiermee ga je die temp shit anders instellen')
+
+    def setLight(self):
+        print('hiermee ga je die light shit anders instellen')
 
 
