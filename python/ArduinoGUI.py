@@ -59,8 +59,12 @@ class ArduinoGUI:
         self.uitrollen.grid(column=0, row=5)
 
         self.f = Figure(figsize=(7, 7), dpi=100)
+
         self.a1 = self.f.add_subplot(211)
+        self.a1.set_ylim([0, 35]) # temp
+
         self.a2 = self.f.add_subplot(212)
+        self.a2.set_ylim([0, 1023]) # light
 
         self.a1.plot(self.temptime, self.tempvalue, label='Temp')
         self.a1.set_title('Temperatuur:', loc='left')
@@ -158,6 +162,10 @@ class ArduinoGUI:
         self.f = Figure(figsize=(7, 7), dpi=100)
         self.a1 = self.f.add_subplot(211)
         self.a2 = self.f.add_subplot(212)
+
+        self.a1.set_ylim([0, 35])  # temp
+        self.a2.set_ylim([0, 1023])  # light
+
 
         self.a1.plot(self.temptime, self.tempvalue, label='Temp')
         self.a1.set_title('Temperatuur:', loc='left')
