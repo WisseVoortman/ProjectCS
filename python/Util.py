@@ -7,6 +7,12 @@ class COMMANDS:
     ACK = 0
     SEND_TEMP = 1
     SEND_LIGHT = 2
+    SET_LIGHT = 3
+    SET_AUTO = 4
+    SET_MAN = 5
+    ROLL_OUT = 6
+    ROLL_IN = 7
+    SET_TEMP = 8
 
     NOP = 127
 
