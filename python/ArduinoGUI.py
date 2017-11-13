@@ -192,8 +192,16 @@ class ArduinoGUI:
         print(self.tempvalue)
 
     def setTemp(self):
-        templimit = self.temp.get()
-        print(templimit)
+
+        try:
+            templimit = int(self.temp.get())
+            print(templimit)
+        except:
+            print('de input is niet te casten naar een int')
+
     def setLight(self):
-        lightlimit = self.light.get()
-        print(lightlimit)
+        try:
+            lightlimit = int(self.light.get())
+            print(lightlimit)
+        except:
+            print('de input is niet te casten naar int')
