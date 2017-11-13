@@ -27,15 +27,15 @@ class ArduinoGUI:
         self.toolbarboolean = FALSE # control boolean for the toolbar rendering
 
         #list that will contain the data that is passed by the arduino sensors
-        self.temptime = [1, 2, 3, 4, 5, 6, 7]
-        self.tempvalue = [20, 17, 23, 20, 19, 18, 22]
+        self.temptime = [0]
+        self.tempvalue = [0]
 
-        self.lighttime = [1, 2, 3, 4, 5, 6, 7]
-        self.lightvalue = [12, 8, 9, 10, 13, 7, 10]
+        self.lighttime = [0]
+        self.lightvalue = [0]
 
         # Control variables for the input fields
-        temp = StringVar()
-        light = StringVar()
+        self.temp = StringVar()
+        self.light = StringVar()
 
         #start GUI
         self.id = Label(self.frameone, text="COM Port: " + self._arduino.get_port())
@@ -90,13 +90,13 @@ class ArduinoGUI:
         self.toolbarOnOff = ttk.Button(self.frameone, text='addtoolbar', width=25, command = self.toolbarOnOff)
         self.toolbarOnOff.grid(column=0, row=8)
 
-        self.temp_entry = ttk.Entry(self.frameone, width=25, textvariable=temp)
+        self.temp_entry = ttk.Entry(self.frameone, width=25, textvariable=self.temp)
         self.temp_entry.grid(column=0, row=10)
 
         self.templabel = Label(self.frameone, text="Temperatuur: ")  # rolled in, rolled out, or rolling
         self.templabel.grid(column=0, row=9, sticky=(W))
 
-        self.light_entry = ttk.Entry(self.frameone, width=25, textvariable=light)
+        self.light_entry = ttk.Entry(self.frameone, width=25, textvariable=self.light)
         self.light_entry.grid(column=0, row=12)
 
         self.templabel = Label(self.frameone, text="Light: ")  # rolled in, rolled out, or rolling
@@ -192,9 +192,8 @@ class ArduinoGUI:
         print(self.tempvalue)
 
     def setTemp(self):
-        print('hiermee ga je die temp shit anders instellen')
-
+        templimit = self.temp.get()
+        print(templimit)
     def setLight(self):
-        print('hiermee ga je die light shit anders instellen')
-
-
+        lightlimit = self.light.get()
+        print(lightlimit)
