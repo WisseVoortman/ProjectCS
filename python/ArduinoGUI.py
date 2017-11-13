@@ -84,24 +84,6 @@ class ArduinoGUI:
         self.a2.set_ylabel('Waarde')
         self.a2.legend()
 
-        # self.tempceiling = ttk.Label(self.frameone, text = "Temperatuur: 50")
-        # self.tempceiling.grid(column=0, row=6, sticky=(W))
-        #
-        # self.lightceiling = ttk.Label(self.frameone, text = "Light: 50")
-        # self.lightceiling.grid(column=0, row=7, sticky=(W))
-        #
-        # self.temp_entry = ttk.Entry(self.frameone, width=25, textvariable=self.temp)
-        # self.temp_entry.grid(column=0, row=10)
-        #
-        # self.templabel = Label(self.frameone, text="Temperatuur: ")  # rolled in, rolled out, or rolling
-        # self.templabel.grid(column=0, row=9, sticky=(W))
-        #
-        # self.light_entry = ttk.Entry(self.frameone, width=25, textvariable=self.light)
-        # self.light_entry.grid(column=0, row=12)
-
-        # self.templabel = Label(self.frameone, text="Light: ")  # rolled in, rolled out, or rolling
-        # self.templabel.grid(column=0, row=11, sticky=(W))
-
         # Temperature
         self.cur_temp = 50  # Default is 50
         self.dec_temp = ttk.Button(self.frameone, text="-2", width=5,
@@ -128,15 +110,6 @@ class ArduinoGUI:
                                     command=self.inc_light)
         self.inc_light.grid(column=2, row=11)
 
-        # self.setTemp = ttk.Button(self.frameone, text='Set temperatuur', width=25, command=self.setTemp)
-        # self.setTemp.grid(column=1, row=10)
-
-        # self.setLight = ttk.Button(self.frameone, text='Set temperatuur', width=25, command=self.setLight)
-        # self.setLight.grid(column=1, row=12)
-
-        self.toolbarOnOff = ttk.Button(self.frameone, text='addtoolbar', width=25, command=self.toolbarOnOff)
-        self.toolbarOnOff.grid(column=0, row=13)
-
         # a tk.DrawingArea
         self.canvas = FigureCanvasTkAgg(self.f, master=self.frametwo)
         self.canvas.show()
@@ -153,38 +126,7 @@ class ArduinoGUI:
     def remove(self):
         self.frame.destroy()
 
-    def toolbarOnOff(self):
-        if self.toolbarboolean == FALSE:
-            self.toolbarboolean = TRUE
-            self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frametree)
-            self.toolbar.update()
-        elif self.toolbarboolean == TRUE:
-            self.toolbarboolean = FALSE
-            self.toolbar.destroy()
-
-    # junkfunctie voor test
-    def team(self):
-        print("Team 6")
-
     def redraw(self):
-        # self.a1.clear()                                # this commented out part somehow didnt do the trick, still havent found out why. therefore the entire mathplot frame is currently being scrapped and rerender agine.
-        # self.a2.clear()
-        # self.a1 = self.f.add_subplot(211)
-        # self.a2 = self.f.add_subplot(212)
-
-        # self.a1.plot(self.temptime, self.tempvalue)
-        # self.a1.set_title('Temperatuur:', loc='left')
-        # self.a1.set_xlabel('Tijdstip')
-        # self.a1.set_ylabel('Waarde')
-        # self.a1.legend()
-
-        # self.a2.plot(self.lighttime, self.lightvalue)
-        # self.a2.set_title('Licht:', loc='left')
-        # self.a2.set_xlabel('Tijdstip')
-        # self.a2.set_ylabel('Waarde')
-        # self.a2.legend()
-
-        print('godverdome')
         self.frametwo = ttk.Frame(self.frame)
         self.frametwo.grid(column=1, row=0)
         self.f = Figure(figsize=(7, 7), dpi=100)
@@ -238,7 +180,6 @@ class ArduinoGUI:
 
     def dec_light(self):
         self._arduino.send(COMMANDS.DEC_LIGHT, [])
-
 
     def update_labels(self):
         self.ceil_light_label.config(text="Light: {0}".format(self.cur_light))
