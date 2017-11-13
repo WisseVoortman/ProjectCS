@@ -14,7 +14,7 @@ class MainView:
         self.ports = list(serial.tools.list_ports.comports())
         self.master = master  # initialize Root window
         self.master.title('Centrale Project 2.1 - Computer System ')  # set title for Root window
-        self.master.geometry("800x755+50+50")  # set size and location for Root window
+        self.master.geometry("1000x755+50+50")  # set size and location for Root window
         self.mainframe = ttk.Notebook(self.master,
                                       padding="0 0 0 0")  # left top right bottem    create mainframe in Root winow
         self.mainframe.grid(column=0, row=0, sticky=(N, W, S, E))  # set mainframe to root windows size
