@@ -15,6 +15,8 @@ class COMMANDS:
     ROLL_IN = 7
     SET_TEMP = 8
     SEND_STATE = 9
+    SEND_CUR_TEMP = 10
+    SEND_CUR_LIGHT = 11
 
     NOP = 127
 
