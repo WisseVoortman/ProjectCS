@@ -55,6 +55,8 @@ class Arduino:
         for param in args:
             self._ser.write(bytes([param]))  # Send all parameters
 
+        self._ser.write(bytes([128]))  # Endbyte
+
     def _listen(self, delay):
         while not self._stop:
             try:
