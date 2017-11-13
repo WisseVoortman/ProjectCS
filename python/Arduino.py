@@ -37,9 +37,6 @@ class Arduino:
         except:
             print("Couldn't delete view?")
 
-    def get_state(self):
-        return self._state
-
     def get_port(self):
         return self._port
 
@@ -63,12 +60,7 @@ class Arduino:
                     byte = self._ser.read()
                     byte = int.from_bytes(byte, byteorder='big')
 
-                    if DEBUG:
-                        print('[{0}]: {1}'.format(self._port, byte))
-
-                    if byte == COMMANDS.NOP:
-                        pass
-                    elif byte == COMMANDS.SEND_TEMP:
+                    if byte == COMMANDS.SEND_TEMP:
                         reading = self._ser.readline()
                         analog_value = int(reading)
                         voltage = analog_value * 5.0 / 1024
@@ -102,7 +94,7 @@ class Arduino:
 
                             self._model.views[self._port].redraw()
                     elif byte == COMMANDS.SEND_MODE:
-                        reading = self._ser.readline();
+                        reading = self._ser.readline()
                         val = int(reading)
                         if val == MODES.AUTO:
                             mode = 'Automatic'
@@ -115,7 +107,7 @@ class Arduino:
                             print('[{0}]: Received new {1} - {2}'.format(self._port, 'mode', mode))
 
                     elif byte == COMMANDS.SEND_STATE:
-                        reading = self._ser.readline();
+                        reading = self._ser.readline()
                         val = int(reading)
                         state = '123'
                         if val == STATES.ROLLED_IN:
@@ -130,23 +122,36 @@ class Arduino:
                         if DEBUG:
                             print('[{0}]: Received new {1} - {2}'.format(self._port, 'state', state))
 
-                    elif byte == COMMANDS.SEND_CUR_LIGHT:
-                        reading = self._ser.readline();
-                        val = int(reading)
-
-                        self._model.views[self._port].lightceiling.config(text="Light: {0}".format(val))
+                    elif byte == COMMANDS.INC_TEMP:
+                        self._model.views[self._port].cur_temp = self._model.views[self._port].cur_temp + 2
+                        self._model.views[self._port].update_labels()
 
                         if DEBUG:
-                            print('[{0}]: Received new {1} - {2}'.format(self._port, 'light ceiling', val))
+                            print('[{0}]: {1} {2}'.format(self._port, 'INCREASE', 'TEMP'))
 
-                    elif byte == COMMANDS.SEND_CUR_TEMP:
-                        reading = self._ser.readline();
-                        val = int(reading)
-
-                        self._model.views[self._port].tempceiling.config(text="Temp: {0}".format(val))
+                    elif byte == COMMANDS.DEC_TEMP:
+                        self._model.views[self._port].cur_temp = self._model.views[self._port].cur_temp - 2
+                        self._model.views[self._port].update_labels()
 
                         if DEBUG:
-                            print('[{0}]: Received new {1} - {2}'.format(self._port, 'temp ceiling', val))
+                            print('[{0}]: {1} {2}'.format(self._port, 'DECREASE', 'TEMP'))
+
+                    elif byte == COMMANDS.INC_LIGHT:
+                        self._model.views[self._port].cur_light = self._model.views[self._port].cur_light + 25
+                        self._model.views[self._port].update_labels()
+
+                        if DEBUG:
+                            print('[{0}]: {1} {2}'.format(self._port, 'INCREASE', 'LIGHT'))
+
+                    elif byte == COMMANDS.DEC_LIGHT:
+                        self._model.views[self._port].cur_light = self._model.views[self._port].cur_light - 25
+                        self._model.views[self._port].update_labels()
+
+                        if DEBUG:
+                            print('[{0}]: {1} {2}'.format(self._port, 'DECREASE', 'LIGHT'))
+
+                    else:
+                        print('[{0}]: {1}'.format(self._port, byte))
 
             except:
                 print(color('Unexpected error:: {0}'
@@ -163,7 +168,3 @@ class Arduino:
                 time.sleep(5)  # Wait at least 5 seconds before continuing
 
             time.sleep(delay)  # Wait before polling again.
-
-        def packIntegerAsULong(value):
-            """Packs a python 4 byte unsigned integer to an arduino unsigned long"""
-            return struct.pack('I', value)

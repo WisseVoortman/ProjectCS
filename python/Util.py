@@ -5,20 +5,17 @@ class STATES:
 
 
 class COMMANDS:
-    ACK = 0
-    SEND_TEMP = 1
-    SEND_LIGHT = 2
-    SET_LIGHT = 3
-    CHANGE_MODE = 4
-    SEND_MODE = 5
-    ROLL_OUT = 6
-    ROLL_IN = 7
-    SET_TEMP = 8
-    SEND_STATE = 9
-    SEND_CUR_TEMP = 10
-    SEND_CUR_LIGHT = 11
-
-    NOP = 127
+    SEND_TEMP = 0
+    SEND_LIGHT = 1
+    CHANGE_MODE = 2
+    SEND_MODE = 3
+    SEND_STATE = 4
+    ROLL_OUT = 5
+    ROLL_IN = 6
+    INC_TEMP = 7
+    DEC_TEMP = 8
+    INC_LIGHT = 9
+    DEC_LIGHT = 10
 
 
 class MODES:
