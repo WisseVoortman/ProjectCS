@@ -130,6 +130,24 @@ class Arduino:
                         if DEBUG:
                             print('[{0}]: Received new {1} - {2}'.format(self._port, 'state', state))
 
+                    elif byte == COMMANDS.SEND_CUR_LIGHT:
+                        reading = self._ser.readline();
+                        val = int(reading)
+
+                        self._model.views[self._port].lightceiling.config(text="Light: {0}".format(val))
+
+                        if DEBUG:
+                            print('[{0}]: Received new {1} - {2}'.format(self._port, 'light ceiling', val))
+
+                    elif byte == COMMANDS.SEND_CUR_TEMP:
+                        reading = self._ser.readline();
+                        val = int(reading)
+
+                        self._model.views[self._port].tempceiling.config(text="Temp: {0}".format(val))
+
+                        if DEBUG:
+                            print('[{0}]: Received new {1} - {2}'.format(self._port, 'temp ceiling', val))
+
             except:
                 print(color('Unexpected error:: {0}'
                             .format(color(sys.exc_info(), COLORS.RED)), COLORS.YELLOW))
