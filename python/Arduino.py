@@ -1,3 +1,4 @@
+import struct
 from Util import *
 
 import sys
@@ -12,7 +13,6 @@ from ArduinoGUI import ArduinoGUI
 
 class Arduino:
     _stop = False  # Used to exit threads within THIS class.
-    _state = STATE.STOPPED
 
     def __init__(self, port, model):
         self._port = port
@@ -22,13 +22,11 @@ class Arduino:
 
     def start(self):
         self._stop = False  # Make sure it's not going to stop immediately.
-        self._state = STATE.RUNNING
         self._listener.start()
         self._model.views[self._port] = ArduinoGUI(self._model.mainframe, self)
 
     def stop(self):
         self._stop = True
-        self._state = STATE.STOPPED
         if DEBUG:
             print('{0} Arduino connection on port: {1}'
                   .format(color('STOPPING', COLORS.RED),
@@ -46,7 +44,7 @@ class Arduino:
         return self._port
 
     def send(self, command, args):
-        send_thread = threading.Thread(target=self._send, args=[])
+        send_thread = threading.Thread(target=self._send, args=(command, args))
         send_thread.start()
 
     def _send(self, command, args):
@@ -103,6 +101,34 @@ class Arduino:
                                 self._model.views[self._port].lighttime.pop(0)
 
                             self._model.views[self._port].redraw()
+                    elif byte == COMMANDS.SEND_MODE:
+                        reading = self._ser.readline();
+                        val = int(reading)
+                        if val == MODES.AUTO:
+                            mode = 'Automatic'
+                        else:
+                            mode = 'Manual'
+
+                        self._model.views[self._port].mode.config(text="Huidige modus: {0}".format(mode))
+
+                        if DEBUG:
+                            print('[{0}]: Received new {1} - {2}'.format(self._port, 'mode', mode))
+
+                    elif byte == COMMANDS.SEND_STATE:
+                        reading = self._ser.readline();
+                        val = int(reading)
+                        state = '123'
+                        if val == STATES.ROLLED_IN:
+                            state = 'Rolled in'
+                        elif val == STATES.ROLLED_OUT:
+                            state = 'Rolled out'
+                        else:
+                            state = 'Rolling'
+
+                        self._model.views[self._port].status.config(text="Huidige status: {0}".format(state))
+
+                        if DEBUG:
+                            print('[{0}]: Received new {1} - {2}'.format(self._port, 'state', state))
 
             except:
                 print(color('Unexpected error:: {0}'
@@ -119,3 +145,7 @@ class Arduino:
                 time.sleep(5)  # Wait at least 5 seconds before continuing
 
             time.sleep(delay)  # Wait before polling again.
+
+        def packIntegerAsULong(value):
+            """Packs a python 4 byte unsigned integer to an arduino unsigned long"""
+            return struct.pack('I', value)
