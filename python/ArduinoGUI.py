@@ -42,13 +42,13 @@ class ArduinoGUI:
 
         #start GUI
         self.id = Label(self.frameone, text="COM Port: " + self._arduino.get_port())
-        self.id.grid(column=0, row=0)
+        self.id.grid(column=0, row=0, sticky=(W))
 
         self.status = Label(self.frameone, text="Huidige status: Rolled in")  # rolled in, rolled out, or rolling
-        self.status.grid(column=0, row=1)
+        self.status.grid(column=0, row=1, sticky=(W))
 
         self.mode = Label(self.frameone, text = "Huidige modus: Automatic") # automatic or manual
-        self.mode.grid(column=0, row=2)
+        self.mode.grid(column=0, row=2, sticky=(W))
 
         self.changeMode = ttk.Button(self.frameone, text='change mode', width=25, command=self.change_mode) # should change the mode from automatic to manual or the other way around
         self.changeMode.grid(column=0, row=3)
@@ -83,15 +83,11 @@ class ArduinoGUI:
         self.a2.set_ylabel('Waarde')
         self.a2.legend()
 
-        self.moddata = ttk.Button(self.frameone, text='mod data', width=25, command = self.modifydata)
-        self.moddata.grid(column=0, row=6)
+        self.tempceiling = ttk.Label(self.frameone, text = "Temperatuur: 50")
+        self.tempceiling.grid(column=0, row=6, sticky=(W))
 
-        self.redrawtestbutton = ttk.Button(self.frameone, text='redraw testen', width=25,
-                                     command=self.redraw)
-        self.redrawtestbutton.grid(column=0, row=7)
-
-        self.toolbarOnOff = ttk.Button(self.frameone, text='addtoolbar', width=25, command = self.toolbarOnOff)
-        self.toolbarOnOff.grid(column=0, row=8)
+        self.lightceiling = ttk.Label(self.frameone, text = "Light: 50")
+        self.lightceiling.grid(column=0, row=7, sticky=(W))
 
         self.temp_entry = ttk.Entry(self.frameone, width=25, textvariable=self.temp)
         self.temp_entry.grid(column=0, row=10)
@@ -111,6 +107,8 @@ class ArduinoGUI:
         self.setLight = ttk.Button(self.frameone, text='Set temperatuur', width=25, command=self.setLight)
         self.setLight.grid(column=1, row=12)
 
+        self.toolbarOnOff = ttk.Button(self.frameone, text='addtoolbar', width=25, command=self.toolbarOnOff)
+        self.toolbarOnOff.grid(column=0, row=13)
 
         # a tk.DrawingArea
         self.canvas = FigureCanvasTkAgg(self.f, master=self.frametwo)
