@@ -1,6 +1,7 @@
-class STATE:
-    STOPPED = 0
-    RUNNING = 1
+class STATES:
+    ROLLED_IN = 0
+    ROLLED_OUT = 1
+    ROLLING = 2
 
 
 class COMMANDS:
@@ -8,13 +9,19 @@ class COMMANDS:
     SEND_TEMP = 1
     SEND_LIGHT = 2
     SET_LIGHT = 3
-    SET_AUTO = 4
-    SET_MAN = 5
+    CHANGE_MODE = 4
+    SEND_MODE = 5
     ROLL_OUT = 6
     ROLL_IN = 7
     SET_TEMP = 8
+    SEND_STATE = 9
 
     NOP = 127
+
+
+class MODES:
+    AUTO = 0
+    MANUAL = 1
 
 
 class COLORS:

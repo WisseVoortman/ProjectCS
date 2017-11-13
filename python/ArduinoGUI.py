@@ -1,8 +1,11 @@
+from tkinter import messagebox
 from tkinter import *
 from tkinter import ttk
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
+
+from Util import *
 
 import threading
 import time
@@ -41,21 +44,21 @@ class ArduinoGUI:
         self.id = Label(self.frameone, text="COM Port: " + self._arduino.get_port())
         self.id.grid(column=0, row=0)
 
-        self.status = Label(self.frameone, text="Huidige status")  # rolled in, rolled out, or rolling
+        self.status = Label(self.frameone, text="Huidige status: Rolled in")  # rolled in, rolled out, or rolling
         self.status.grid(column=0, row=1)
 
-        self.mode = Label(self.frameone, text = "Huidige modus: ") # automatic or manual
+        self.mode = Label(self.frameone, text = "Huidige modus: Automatic") # automatic or manual
         self.mode.grid(column=0, row=2)
 
-        self.changeMode = ttk.Button(self.frameone, text='change mode', width=25, command=self.team) # should change the mode from automatic to manual or the other way around
+        self.changeMode = ttk.Button(self.frameone, text='change mode', width=25, command=self.change_mode) # should change the mode from automatic to manual or the other way around
         self.changeMode.grid(column=0, row=3)
 
 
-        self.inrollen = ttk.Button(self.frameone, text='Roll in', width=25, command=self.team) # should change the mode to manual and call roll in
+        self.inrollen = ttk.Button(self.frameone, text='Roll in', width=25, command=self.roll_in) # should change the mode to manual and call roll in
         self.inrollen.grid(column=0, row=4)
 
 
-        self.uitrollen = ttk.Button(self.frameone, text='Roll out', width=25, command=self.team) # should change the mode to manual and roll out
+        self.uitrollen = ttk.Button(self.frameone, text='Roll out', width=25, command=self.roll_out) # should change the mode to manual and roll out
         self.uitrollen.grid(column=0, row=5)
 
         self.f = Figure(figsize=(7, 7), dpi=100)
@@ -187,9 +190,19 @@ class ArduinoGUI:
 
         self.canvas._tkcanvas.pack()
 
+
     def modifydata(self):
         self.tempvalue[0] = self.tempvalue[0] + 5
         print(self.tempvalue)
+
+    def roll_in(self):
+        self._arduino.send(COMMANDS.ROLL_IN, [])
+
+    def roll_out(self):
+        self._arduino.send(COMMANDS.ROLL_OUT, [])
+
+    def change_mode(self):
+        self._arduino.send(COMMANDS.CHANGE_MODE, [])
 
     def setTemp(self):
 
@@ -198,6 +211,7 @@ class ArduinoGUI:
             print(templimit)
         except:
             print('de input is niet te casten naar een int')
+            messagebox.showerror('error, g', 'Dit is geen integer gast, wat denken jij?!')
 
     def setLight(self):
         try:
@@ -205,3 +219,4 @@ class ArduinoGUI:
             print(lightlimit)
         except:
             print('de input is niet te casten naar int')
+            messagebox.showerror('error, g', 'Dit is geen integer gast, wat denken jij?!')
