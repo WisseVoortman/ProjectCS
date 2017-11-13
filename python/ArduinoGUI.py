@@ -4,10 +4,6 @@ from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 
-import threading
-import time
-
-
 class ArduinoGUI:
     def __init__(self, master, arduino):
         self.master = master

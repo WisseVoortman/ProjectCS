@@ -2,8 +2,6 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import serial.tools.list_ports
-import time
-from ArduinoGUI import *
 from PyCtrl import PyCtrl
 
 
