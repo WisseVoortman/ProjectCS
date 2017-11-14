@@ -42,7 +42,6 @@ class MainView:
         messagebox.showinfo("Credits - Team 6",
                             "Dit geweldige software product is gemaakt door:\n"
                             "Azad Ali\n"
-                            "Teun Ubels\n"
                             "Mitchel van Rijn\n"
                             "Wisse Voortman")
 
