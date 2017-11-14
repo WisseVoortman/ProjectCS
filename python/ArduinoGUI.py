@@ -85,7 +85,7 @@ class ArduinoGUI:
         self.a2.legend()
 
         # Temperature
-        self.cur_temp = 50  # Default is 50
+        self.cur_temp = 15  # Default is 50
         self.dec_temp = ttk.Button(self.frameone, text="-2", width=5,
                                    command=self.dec_temp)
         self.dec_temp.grid(column=1, row=10)
