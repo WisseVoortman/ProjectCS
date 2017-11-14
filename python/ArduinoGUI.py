@@ -44,13 +44,13 @@ class ArduinoGUI:
         self.id = Label(self.frameone, text="COM Port: " + self._arduino.get_port())
         self.id.grid(column=0, row=0, sticky=(W))
 
-        self.status = Label(self.frameone, text="Huidige status: Rolled in")  # rolled in, rolled out, or rolling
+        self.status = Label(self.frameone, text="Current status: Rolled in")  # rolled in, rolled out, or rolling
         self.status.grid(column=0, row=1, sticky=(W))
 
-        self.mode = Label(self.frameone, text="Huidige modus: Automatic")  # automatic or manual
+        self.mode = Label(self.frameone, text="Current mode: Automatic")  # automatic or manual
         self.mode.grid(column=0, row=2, sticky=(W))
 
-        self.changeMode = ttk.Button(self.frameone, text='change mode', width=25,
+        self.changeMode = ttk.Button(self.frameone, text='Change mode', width=25,
                                      command=self.change_mode)  # should change the mode from automatic to manual or the other way around
         self.changeMode.grid(column=0, row=3)
 
@@ -71,17 +71,17 @@ class ArduinoGUI:
         self.a2.set_ylim([0, 1023])  # light
 
         self.a1.plot(self.temptime, self.tempvalue, label='Temp')
-        self.a1.set_title('Temperatuur:', loc='left')
-        self.a1.set_xlabel('Tijdstip')
+        self.a1.set_title('Temperature:', loc='left')
+        self.a1.set_xlabel('Time')
 
-        self.a1.set_ylabel('Waarde')
+        self.a1.set_ylabel('Value')
         self.a1.legend()
 
         self.a2.plot(self.lighttime, self.lightvalue, label='Light')
         self.a2.set_title('Licht:', loc='left')
 
-        self.a2.set_xlabel('Tijdstip')
-        self.a2.set_ylabel('Waarde')
+        self.a2.set_xlabel('Time')
+        self.a2.set_ylabel('Value')
         self.a2.legend()
 
         # Temperature
@@ -90,7 +90,7 @@ class ArduinoGUI:
                                    command=self.dec_temp)
         self.dec_temp.grid(column=1, row=10)
 
-        self.ceil_temp_label = Label(self.frameone, width=10, text="Temp: {0}".format(self.cur_temp))
+        self.ceil_temp_label = Label(self.frameone, width=25, text="Temperature: {0}".format(self.cur_temp))
         self.ceil_temp_label.grid(column=0, row=10)
 
         self.inc_temp = ttk.Button(self.frameone, text="+2", width=5,
@@ -103,7 +103,7 @@ class ArduinoGUI:
                                     command=self.dec_light)
         self.dec_light.grid(column=1, row=11)
 
-        self.ceil_light_label = Label(self.frameone, width=10, text="Light: {0}".format(self.cur_light))
+        self.ceil_light_label = Label(self.frameone, width=25, text="Light intensity: {0}".format(self.cur_light))
         self.ceil_light_label.grid(column=0, row=11)
 
         self.inc_light = ttk.Button(self.frameone, text="+25", width=5,
@@ -136,18 +136,18 @@ class ArduinoGUI:
         self.a1.set_ylim([0, 35])  # temp
         self.a2.set_ylim([0, 1023])  # light
 
-        self.a1.plot(self.temptime, self.tempvalue, label='Temp')
-        self.a1.set_title('Temperatuur:', loc='left')
-        self.a1.set_xlabel('Tijdstip')
+        self.a1.plot(self.temptime, self.tempvalue, label='Temperature')
+        self.a1.set_title('Temperature:', loc='left')
+        self.a1.set_xlabel('Time')
 
-        self.a1.set_ylabel('Waarde')
+        self.a1.set_ylabel('Value')
         self.a1.legend()
 
-        self.a2.plot(self.lighttime, self.lightvalue, label='Light')
-        self.a2.set_title('Licht:', loc='left')
+        self.a2.plot(self.lighttime, self.lightvalue, label='Light intensity')
+        self.a2.set_title('Light intensity:', loc='left')
 
-        self.a2.set_xlabel('Tijdstip')
-        self.a2.set_ylabel('Waarde')
+        self.a2.set_xlabel('Time')
+        self.a2.set_ylabel('Value')
         self.a2.legend()
 
         self.canvas = FigureCanvasTkAgg(self.f, master=self.frametwo)

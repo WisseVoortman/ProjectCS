@@ -101,7 +101,7 @@ class Arduino:
                         else:
                             mode = 'Manual'
 
-                        self._model.views[self._port].mode.config(text="Huidige modus: {0}".format(mode))
+                        self._model.views[self._port].mode.config(text="Current mode: {0}".format(mode))
 
                         if DEBUG:
                             print('[{0}]: Received new {1} - {2}'.format(self._port, 'mode', mode))
@@ -117,7 +117,7 @@ class Arduino:
                         else:
                             state = 'Rolling'
 
-                        self._model.views[self._port].status.config(text="Huidige status: {0}".format(state))
+                        self._model.views[self._port].status.config(text="Current status: {0}".format(state))
 
                         if DEBUG:
                             print('[{0}]: Received new {1} - {2}'.format(self._port, 'state', state))
