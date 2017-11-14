@@ -88,10 +88,10 @@ class ArduinoGUI:
         self.cur_temp = 50  # Default is 50
         self.dec_temp = ttk.Button(self.frameone, text="-2", width=5,
                                    command=self.dec_temp)
-        self.dec_temp.grid(column=0, row=10)
+        self.dec_temp.grid(column=1, row=10)
 
         self.ceil_temp_label = Label(self.frameone, width=10, text="Temp: {0}".format(self.cur_temp))
-        self.ceil_temp_label.grid(column=1, row=10)
+        self.ceil_temp_label.grid(column=0, row=10)
 
         self.inc_temp = ttk.Button(self.frameone, text="+2", width=5,
                                    command=self.inc_temp)
@@ -101,10 +101,10 @@ class ArduinoGUI:
         self.cur_light = 800  # Default is 800
         self.dec_light = ttk.Button(self.frameone, text="-25", width=5,
                                     command=self.dec_light)
-        self.dec_light.grid(column=0, row=11)
+        self.dec_light.grid(column=1, row=11)
 
         self.ceil_light_label = Label(self.frameone, width=10, text="Light: {0}".format(self.cur_light))
-        self.ceil_light_label.grid(column=1, row=11)
+        self.ceil_light_label.grid(column=0, row=11)
 
         self.inc_light = ttk.Button(self.frameone, text="+25", width=5,
                                     command=self.inc_light)
